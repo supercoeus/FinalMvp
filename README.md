@@ -29,6 +29,7 @@
  	执行setDataChanage(data)//通知数据改变
  3、编辑model继承BaseModel
  	loadData(tag,msg)//加载数据
+ 	chanageData(tag,data)//数据加载完成后调用这个方法
 </pre>
 
 <h2>demo代码</h2>
