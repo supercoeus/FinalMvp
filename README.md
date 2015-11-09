@@ -26,7 +26,7 @@
  	initModel()//初始化model
  	onModelCallBack//数据返回后的监听
  	执行loadData()//请求数据，会发送到model的loadData
- 	执行setDataChanage(data)//通知数据改变
+ 	执行setDataChanage(data)//将view中标注@ViewData的数据值修改为data,并通知view改变ui
  3、编辑model继承BaseModel
  	loadData(tag,msg)//加载数据
  	chanageData(tag,data)//数据加载完成后调用这个方法
