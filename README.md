@@ -18,7 +18,17 @@
 </pre>
 <h2>代码实现</h2>
 <pre>
-
+ 1、activity继承BaseView
+ 	onDataChanage()//当数据变化时通知此方法
+ 	onChanageUi()//presenter可以直接发送修改ui指令,在onChangeUi接收
+ 	编辑数据字段加上注解@ViewData,presenter会使用依赖注入修改数据
+ 2、编辑presenter继承BasePresenter
+ 	initModel()//初始化model
+ 	onModelCallBack//数据返回后的监听
+ 	执行loadData()//请求数据，会发送到model的loadData
+ 	执行setDataChanage(data)//通知数据改变
+ 3、编辑model继承BaseModel
+ 	loadData(tag,msg)//加载数据
 </pre>
 
 <h2>demo代码</h2>
@@ -77,7 +87,8 @@ public class MainPresenter extends BasePresenter{
 		switch (tag) {
 		case TAG_LOAD_DATA:
 			/**
-			 * 执行setDataChange,代码便会将BaseView中的注解的值替换为obj，并执行BaseView下的onDataChanage方法，通知BaseView修改ui
+			 * 执行setDataChange,代码便会将BaseView中的注解的值替换为obj，
+			 * 并执行BaseView下的onDataChanage方法，通知BaseView修改ui
 			 */
 			setDataChanage(obj);
 			break;
