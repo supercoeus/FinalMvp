@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.org.finalmvp.model.BaseModel;
+import com.org.finalmvp.model.OnModelCallBackListener;
 import com.org.finalmvp.view.BaseView;
 
 /**
@@ -13,9 +14,10 @@ import com.org.finalmvp.view.BaseView;
  * 所有presenter必须继承此类
  * @author hld
  */
-public class BasePresenter {
+public abstract class BasePresenter implements OnModelCallBackListener{
 	private static final int WHAT_CHANAGEUI=1;
 	private static final int WHAT_DATACHANAGE=2;
+	private static final int WHAT_MODELCALLBACK=3;
 	
 	private BaseView view;
 	private BaseModel model;
@@ -23,19 +25,35 @@ public class BasePresenter {
 	public BasePresenter(BaseView view) {
 		this.view=view;
 		handler=new MyHandler(this);
+		model=initModel();
+		model.setOnModelCallBackListener(this);
+	}
+	
+	/**
+	 * 初始化model
+	 * @return
+	 */
+	public abstract BaseModel initModel();
+	
+	public void loadData(int tag,String msg){
+		model.loadData(tag, msg);
 	}
 	
 	
+	@Override
+	public void onCallBack(int tag,Object obj) {
+		Message msg=handler.obtainMessage();
+		msg.what=WHAT_MODELCALLBACK;
+		msg.obj=obj;
+		msg.arg1=tag;
+		handler.sendMessage(msg);
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/**
+	 * 
+	 * @param obj
+	 */
+	public abstract void onModelCallBack(int tag,Object obj);
 	
 	
 	
@@ -117,7 +135,12 @@ public class BasePresenter {
 			case WHAT_DATACHANAGE:
 				bp.view.onDataChanage();
 				break;
+			case WHAT_MODELCALLBACK:
+				bp.onModelCallBack(msg.arg1,msg.obj);
+				break;
 			}
 		}
 	}
+
+
 }

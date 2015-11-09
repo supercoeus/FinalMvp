@@ -1,5 +1,5 @@
 package com.org.finalmvp.model;
 
-public class OnModelCallBackListener {
-	
+public interface OnModelCallBackListener  {
+	void onCallBack(int tag,Object obj);
 }
