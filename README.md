@@ -7,3 +7,11 @@
   将view和model完全隔绝，可以说完全解决了耦合性的问题。
   道理很容易理解，可是要想真正做好却不那么容易！
 </pre>
+<h2>finaMvp介绍</h2>
+<pre style="background:#ffffff;">
+  finalMvp是为了轻松使用mvp模式开发，并且规范mvp代码而编写的框架。
+  该框架的结构为:BaseView BasePresenter BaseModel
+  代码中直接继承这三类,变可以轻松实现mvp分层
+  finalMvp架构模型图:
+  
+</pre>
