@@ -13,5 +13,5 @@
   该框架的结构为:BaseView BasePresenter BaseModel
   代码中直接继承这三类,变可以轻松实现mvp分层
   finalMvp架构模型图:
-  
+  <img src="https://github.com/yuanfen7650/FinalMvp/blob/master/README/finaMvpDXF.png?raw=true"/>
 </pre>
