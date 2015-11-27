@@ -12,7 +12,12 @@ public abstract class BaseModel {
 			listener.onCallBack(tag,data);
 		}
 	}
+	public void error(int tag,String msg){
+		if(listener!=null){
+			listener.onErrorBack(tag, msg);
+		}
+	}
 	
-	public abstract void loadData(int tag,String msg);
+	public abstract void loadData(int tag,Object msg);
 	
 }

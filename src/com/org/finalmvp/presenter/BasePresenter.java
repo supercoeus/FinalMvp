@@ -18,6 +18,7 @@ public abstract class BasePresenter implements OnModelCallBackListener{
 	private static final int WHAT_CHANAGEUI=1;
 	private static final int WHAT_DATACHANAGE=2;
 	private static final int WHAT_MODELCALLBACK=3;
+	private static final int WHAT_MODELCALLERRBACK=4;
 	
 	private BaseView view;
 	private BaseModel model;
@@ -35,7 +36,7 @@ public abstract class BasePresenter implements OnModelCallBackListener{
 	 */
 	public abstract BaseModel initModel();
 	
-	public void loadData(int tag,String msg){
+	public void loadData(int tag,Object msg){
 		model.loadData(tag, msg);
 	}
 	
@@ -48,6 +49,14 @@ public abstract class BasePresenter implements OnModelCallBackListener{
 		msg.arg1=tag;
 		handler.sendMessage(msg);
 	}
+	@Override
+	public void onErrorBack(int tag, String msgstr) {
+		Message msg=handler.obtainMessage();
+		msg.what=WHAT_MODELCALLERRBACK;
+		msg.obj=msgstr;
+		msg.arg1=tag;
+		handler.sendMessage(msg);
+	}
 	
 	/**
 	 * 
@@ -55,7 +64,7 @@ public abstract class BasePresenter implements OnModelCallBackListener{
 	 */
 	public abstract void onModelCallBack(int tag,Object obj);
 	
-	
+	public abstract void onModelErrorBack(int tag,String msg);
 	
 	
 	/**
@@ -137,6 +146,9 @@ public abstract class BasePresenter implements OnModelCallBackListener{
 				break;
 			case WHAT_MODELCALLBACK:
 				bp.onModelCallBack(msg.arg1,msg.obj);
+				break;
+			case WHAT_MODELCALLERRBACK:
+				bp.onModelErrorBack(msg.arg1,msg.obj.toString());
 				break;
 			}
 		}
