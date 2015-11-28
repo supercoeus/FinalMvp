@@ -58,7 +58,7 @@ class DataUtils {
 			List<?> list = (List<?>) f.get(view);
 			list.clear();
 			list.addAll((List)data);
-		}else if(type.equals(data)){
+		}else if(type.equals(data.getClass())){
 			LogUtils.d("bean¿‡–Õ typeName:"+type.getName());
 			f.set(view, data);
 		}

@@ -6,6 +6,6 @@ public interface BaseView {
 	 * 通知做什么
 	 * @param tag
 	 */
-	void onChanageUi(int tag);
+	void onChanageUi(int tag,Object msg);
 	
 }

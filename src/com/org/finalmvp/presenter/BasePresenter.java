@@ -80,10 +80,11 @@ public abstract class BasePresenter implements OnModelCallBackListener{
 	 * 直接修改View的ui，通过tag对应(一般用的很少，特殊情况)
 	 * @param tag
 	 */
-	public void chanageViewUi(int tag) {
+	public void chanageViewUi(int tag,Object message) {
 		Message msg=handler.obtainMessage();
 		msg.what=WHAT_CHANAGEUI;
 		msg.arg1=tag;
+		msg.obj=message;
 		handler.sendMessage(msg);
 	}
 	
@@ -139,7 +140,7 @@ public abstract class BasePresenter implements OnModelCallBackListener{
 			BasePresenter bp=wr.get();
 			switch (msg.what) {
 			case WHAT_CHANAGEUI:
-				bp.view.onChanageUi(msg.arg1);
+				bp.view.onChanageUi(msg.arg1,msg.obj);
 				break;
 			case WHAT_DATACHANAGE:
 				bp.view.onDataChanage();
