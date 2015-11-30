@@ -16,7 +16,8 @@ import com.org.finalmvp.view.BaseView;
  */
 public abstract class BasePresenter implements OnModelCallBackListener{
 	private static final int WHAT_CHANAGEUI=1;
-	private static final int WHAT_DATACHANAGE=2;
+	private static final int WHAT_DATACHANAGE2=5;
+	
 	private static final int WHAT_MODELCALLBACK=3;
 	private static final int WHAT_MODELCALLERRBACK=4;
 	
@@ -70,9 +71,10 @@ public abstract class BasePresenter implements OnModelCallBackListener{
 	/**
 	 * 通知View数据以及修改
 	 */
-	public void notifyViewDataChanage() {
+	public void notifyViewDataChanage(int id) {
 		Message msg=handler.obtainMessage();
-		msg.what=WHAT_DATACHANAGE;
+		msg.what=WHAT_DATACHANAGE2;
+		msg.arg1=id;
 		handler.sendMessage(msg);
 	}
 	
@@ -92,7 +94,9 @@ public abstract class BasePresenter implements OnModelCallBackListener{
 	 * 设置改变的值
 	 */
 	public void setDataChanage(Object data) {
-		setDataChanage(0, data);
+//		setDataChanage(0, data);
+		DataUtils.dataChanage(view,0, data);
+		notifyViewDataChanage(0);
 	}
 	/**
 	 * 通过依赖注入的方法  给view的字段赋值,然后直接通知View改变ui
@@ -101,7 +105,7 @@ public abstract class BasePresenter implements OnModelCallBackListener{
 	 */
 	public void setDataChanage(int id,Object data){
 		DataUtils.dataChanage(view,id, data);
-		notifyViewDataChanage();
+		notifyViewDataChanage(id);
 	}
 	
 	/**
@@ -142,8 +146,8 @@ public abstract class BasePresenter implements OnModelCallBackListener{
 			case WHAT_CHANAGEUI:
 				bp.view.onChanageUi(msg.arg1,msg.obj);
 				break;
-			case WHAT_DATACHANAGE:
-				bp.view.onDataChanage();
+			case WHAT_DATACHANAGE2:
+				bp.view.onDataChanage(msg.arg1);
 				break;
 			case WHAT_MODELCALLBACK:
 				bp.onModelCallBack(msg.arg1,msg.obj);
