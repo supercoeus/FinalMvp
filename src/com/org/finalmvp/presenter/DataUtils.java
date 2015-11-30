@@ -1,6 +1,7 @@
 package com.org.finalmvp.presenter;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.org.finalmvp.ViewData;
@@ -56,8 +57,12 @@ class DataUtils {
 		}else if(type.equals(List.class)&& data instanceof List){
 			LogUtils.d("list类型 typeName:"+type.getName());
 			List<?> list = (List<?>) f.get(view);
-			list.clear();
-			list.addAll((List)data);
+			if(list==null){
+				f.set(view, data);
+			}else{
+				list.clear();
+				list.addAll((List)data);
+			}
 		}else if(data!=null&&type.equals(data.getClass())){
 			LogUtils.d("bean类型 typeName:"+type.getName());
 			f.set(view, data);
