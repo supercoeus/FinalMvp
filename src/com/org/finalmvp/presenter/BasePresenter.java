@@ -90,6 +90,18 @@ public abstract class BasePresenter implements OnModelCallBackListener{
 		handler.sendMessage(msg);
 	}
 	
+	
+	
+	public void addDataToList(Object data) {
+//		DataUtils.addListDatas(view, 0, data);
+//		notifyViewDataChanage(0);
+		addDataToList(0, data);
+	}
+	public void addDataToList(int id,Object data) {
+		DataUtils.addListDatas(view, id, data);
+		notifyViewDataChanage(id);
+	}
+	
 	/**
 	 * 设置改变的值
 	 */
@@ -153,7 +165,11 @@ public abstract class BasePresenter implements OnModelCallBackListener{
 				bp.onModelCallBack(msg.arg1,msg.obj);
 				break;
 			case WHAT_MODELCALLERRBACK:
-				bp.onModelErrorBack(msg.arg1,msg.obj.toString());
+				if(msg.obj!=null){
+					bp.onModelErrorBack(msg.arg1,msg.obj.toString());
+				}else{
+					bp.onModelErrorBack(msg.arg1,null);
+				}
 				break;
 			}
 		}

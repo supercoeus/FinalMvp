@@ -1,7 +1,6 @@
 package com.org.finalmvp.presenter;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.org.finalmvp.ViewData;
@@ -27,6 +26,9 @@ class DataUtils {
 	 * @param data 需要注入的数据
 	 */
 	public static void dataChanage(BaseView view,int id,Object data){
+		dataChanage(view, id, data, false);
+	}
+	public static void dataChanage(BaseView view,int id,Object data,boolean isAddList){
 		Class<?> cls = view.getClass();
 		Field fds[]=cls.getDeclaredFields();
 		for(Field f:fds){
@@ -35,20 +37,31 @@ class DataUtils {
 				if(id==an.id()){
 					try {
 //						f.set(view, data);
-						chanageDatas(view, f, data);
+						chanageDatas(view, f, data,isAddList);
 					} catch (IllegalAccessException e) {
-						e.printStackTrace();
+						if(e!=null){
+							LogUtils.e("请将属性设置为public  "+e.getMessage()+"  "+e.getLocalizedMessage());
+							e.printStackTrace();
+						}
 					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
+						if(e!=null){
+							LogUtils.e(e.getMessage()+"  "+e.getLocalizedMessage());
+							e.printStackTrace();
+						}
 					}
 				}
 			}
 		}
 	}
 	
+	public static void addListDatas(BaseView view,int id,Object data){
+		dataChanage(view, id, data,true);
+	}
+	
+	
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private static void chanageDatas(BaseView view,Field f,Object data) throws IllegalAccessException, IllegalArgumentException {
+	private static void chanageDatas(BaseView view,Field f,Object data,boolean isAddList) throws IllegalAccessException, IllegalArgumentException {
 		Class<?> type=f.getType();
 		if(type.equals(String.class)||type.equals(Integer.class)||type.equals(Float.class)||type.equals(Double.class)
 				||type.equals(Boolean.class)||type.equals(Long.class)||type.equals(Short.class)){
@@ -60,7 +73,9 @@ class DataUtils {
 			if(list==null){
 				f.set(view, data);
 			}else{
-				list.clear();
+				if(!isAddList){
+					list.clear();
+				}
 				list.addAll((List)data);
 			}
 		}else if(data!=null&&type.equals(data.getClass())){

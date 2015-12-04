@@ -7,4 +7,7 @@ public class LogUtils {
 	public static void d(String msg){
 		Log.d(LOGTAG, msg);
 	}
+	public static void e(String msg){
+		Log.e(LOGTAG, msg);
+	}
 }
